@@ -1,0 +1,99 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <cmath>
+using namespace std;
+ 
+// First Item in the pair is the
+// value of observation (xi).
+// Second Item in the pair is 
+// the frequency of xi (fi)
+typedef pair<float,float> Data;
+ 
+// Vector stores the observation 
+// in pairs of format (xi, fi), 
+// where xi = value of observation
+typedef vector<Data> Vector;
+ 
+// Function to calculate the 
+// summation of fi*xi
+float sigma_fx(const Vector & v)
+{
+    float sum = 0;
+    for ( auto i : v) {
+        sum += i.first * i.second; 
+    }
+    return sum;
+}
+ 
+// Function to calculate summation fi
+float sigma_f(const Vector & v)
+{
+    float sum = 0.0;
+    for ( auto i : v) {
+        sum += i.second;
+    }
+    return sum;
+}
+ 
+// Function to calculate the mean
+// of the set of observations v
+float calculate_mean(const Vector & v)
+{
+    return sigma_fx(v) / sigma_f(v);
+}
+ 
+// Function to calculate the std
+// deviation of set of observations v
+float calculate_std(const Vector & v) 
+{
+    // Get sum of frequencies
+    float f = sigma_f(v);
+     
+    // Get the mean of the set 
+    // of observations
+    float mean = sigma_fx(v) / f;
+     
+    float sum = 0;
+     
+    for (auto i: v) {
+        sum += (i.first-mean)*
+               (i.first-mean)*i.second;
+    }
+     
+    return sqrt(sum/f);
+}
+ 
+// Driver Code
+int main() 
+{
+     
+    Vector A = { {0,0.1}, {100,0.1}, 
+               {200,0.2}, {333,0.3}, {400,0.3}};
+    Vector B = { {100,0.1}, {200,0.5}, {700,0.4}};
+ 
+    float avg_A = calculate_mean(A);
+    float avg_B = calculate_mean(B);
+    float std_A = calculate_std(A);
+    float std_B = calculate_std(B);
+     
+     
+    cout << "For Investment A" << endl;
+    cout << "Average: " << avg_A << endl;
+    cout << "Standard Deviation: " << 
+                           std_A << endl;
+    cout << "Normalised Std: " << 
+                    std_A / avg_A << endl;
+    cout << "For Investment B" << endl;
+    cout << "Average: " << avg_B << endl;
+    cout << "Standard Deviation: " << 
+                            std_B << endl;
+    cout << "Normalised Std: " << std_B / 
+                            avg_B << endl;
+     
+    (std_B/avg_B) < (std_A/avg_A) ? cout << 
+            "Investment B is less risky\n":
+            cout << "Investment A is less risky\n";
+     
+    return 0;
+}
