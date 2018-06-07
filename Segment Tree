@@ -1,1 +1,64 @@
 
+#include<stdio.h>
+#include<stdlib.h>
+
+int SuperCeiling(int n) 
+ int p;
+ for( p =1; p < n; p = 2p);
+ return p;
+}
+
+int max(int a, int b) {return(a > b)? a: b;}
+int min(int a, int b) {return (a < b)? a: b;}
+int parent(int i){return i/2;}
+int leftchild(int i) {return 2*i;}
+int rightchild(int i) {return 2*i+1;}
+
+int glue(int a, int b)
+  return a+b;
+  }
+  int identity = 0;
+  int n, N, *A;
+
+  void Assign(int i, int x){
+   i = i + N;
+   A[i] = x;
+   for(i = Parent(i); i > 0; i = Parent(i)){
+     A[i] = glue(A[LeftChild(i)], A[RightChild(i)])
+   }
+  }
+
+  int f(int v, int l, int r, int i, int j)
+  int t1, t2, m;
+  if(l == i & r == j){
+    return A[v];
+  } else { 
+     m = (l + r)/2;
+     t1 = ( i <= m)? f(LeftChild(v), l, m, i, (min(m, j))): identity;
+     t2 = ( j > m)? f (RightChild(v), (m+1), r, (max(i, (m+1))), j): identity;
+     return glue(t1, t2);
+   }
+int RangeSum(int i, int j){
+	return f(1, 0, (N-1, i, j);
+}
+
+int main()
+{
+	int i;
+	n =7;
+	N = SuperCeiling(n);
+	A = (int *) malloc (sizeof(int) * (2*N));
+	for( i = 0; i < 2*N; i++) A[i] = identity;
+	Assign(3, 7);
+	Assign(4, 1);
+	for( i = 0; i < 2*N; i++) A[i] = identity;
+	Assign(3, 7);
+	Assign(4, 1);
+	for ( i = 0; i<2*N; i++){
+	  printf("A[%d] = %d\n", i, A[i]);
+	}
+printf(" RangeSum(2,7) = %d\n", RangeSum(2,7));
+printf(" RangeSum(0,3) = %d\n", RangeSum(0,3));
+printf(" RangeSum(4,5) = %d\n", RangeSum(4,5));
+printf(" RangeSum(5,5) = %d\n", RangeSum(5,5));
+}
